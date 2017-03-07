@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { NavBar } from './components/header/Navbar.jsx';
+import { NavBar } from '../components/header/Navbar.jsx';
 
 var MainLayout = React.createClass({
   render: function(){
