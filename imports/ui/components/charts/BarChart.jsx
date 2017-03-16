@@ -77,13 +77,19 @@ const BarChart = React.createClass({
       .attr("y", function(d) { return y(d[value]); })
       .attr("height", function(d) { return height - y(d[value]); })
       .attr("width", x.bandwidth())
-      .attr("class", "bar");
+      .attr("class", "fill blue")
+      .on("mouseover", function(d) {
+        d3.select(this).attr("class", "fill orange");
+      })
+      .on("mouseout", function(d) {
+        d3.select(this).attr("class", "fill blue");
+      });
 
     var xAxis = d3.axisBottom()
       .scale(x)
 
     var yAxis = d3.axisLeft()
-        .scale(y)
+      .scale(y)
 
     chart.append("g")
       .attr("class", "x axis")
@@ -93,7 +99,6 @@ const BarChart = React.createClass({
     chart.append("g")
       .attr("class", "y axis")
       .call(yAxis)
-      .ticks(maxValue);
     }
 });
 
