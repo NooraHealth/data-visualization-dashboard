@@ -32,3 +32,4 @@ arillo:flow-router-helpers
 coffeescript
 react-meteor-data
 static-html
+session
