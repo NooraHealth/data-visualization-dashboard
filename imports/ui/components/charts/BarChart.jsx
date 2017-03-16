@@ -85,6 +85,12 @@ const BarChart = React.createClass({
         d3.select(this).attr("class", "fill blue");
       });
 
+    bar.append("text")
+      .attr("x", x.bandwidth() / 2)
+      .attr("y", function(d) { return y(d[value]) + 3; })
+      .attr("dy", ".75em")
+      .text(function(d) { return d[value]; });
+
     var xAxis = d3.axisBottom()
       .scale(x)
 
