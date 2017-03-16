@@ -51,7 +51,7 @@ const BarChart = React.createClass({
       .attr("width", width + margin.left + margin.right )
       .attr("height", height + margin.top + margin.bottom )
       .append("g")
-          .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+        .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
     const barNames = data.map( function(d){ return d[name] });
 
@@ -60,9 +60,11 @@ const BarChart = React.createClass({
       .rangeRound([0, width])
       .padding(0.1);
 
+    var maxValue = d3.max(data, function(d) { return d[value]; });
+
     var y = d3.scaleLinear()
       .range([height, 0])
-      .domain([0, d3.max(data, function(d) { return d[value]; })]);
+      .domain([0, maxValue ]);
 
     var bar = chart.selectAll("g")
       .data(data)
@@ -79,11 +81,19 @@ const BarChart = React.createClass({
 
     var xAxis = d3.axisBottom()
       .scale(x)
-      
+
+    var yAxis = d3.axisLeft()
+        .scale(y)
+
     chart.append("g")
       .attr("class", "x axis")
       .attr("transform", "translate(0," + height + ")")
       .call(xAxis);
+
+    chart.append("g")
+      .attr("class", "y axis")
+      .call(yAxis)
+      .ticks(maxValue);
     }
 });
 
