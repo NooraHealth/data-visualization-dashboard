@@ -27,7 +27,6 @@ const BarChart = React.createClass({
   },
 
   componentDidMount() {
-    console.log("Rendering the bars!!");
     this.renderBars();
   },
 
@@ -69,15 +68,22 @@ const BarChart = React.createClass({
       .data(data)
       .enter().append("g")
       .attr("transform", function(d, i) {
-        console.log(d[name]);
-        console.log(d[value]);
         return "translate(" + x(d[name]) + ",0)";
       });
 
     bar.append("rect")
       .attr("y", function(d) { return y(d[value]); })
       .attr("height", function(d) { return height - y(d[value]); })
-      .attr("width", x.bandwidth() );
+      .attr("width", x.bandwidth())
+      .attr("class", "bar");
+
+    var xAxis = d3.axisBottom()
+      .scale(x)
+      
+    chart.append("g")
+      .attr("class", "x axis")
+      .attr("transform", "translate(0," + height + ")")
+      .call(xAxis);
     }
 });
 
