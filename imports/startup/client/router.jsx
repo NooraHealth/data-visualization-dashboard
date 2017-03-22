@@ -4,7 +4,7 @@ import { mount } from 'react-mounter';
 
 // Import needed templates
 import { MainLayout } from '../../ui/layouts/layout.jsx';
-import { HomePage } from '../../ui/pages/Home.jsx';
+import { HomePageContainer } from '../../ui/containers/Home.jsx';
 import { NotFound } from '../../ui/pages/NotFound.jsx';
 
 // Set up all routes in the app
@@ -12,7 +12,7 @@ FlowRouter.route('/', {
   name: 'home',
   action() {
     mount( MainLayout, {
-      content: <HomePage key='homepage'/>
+      content: <HomePageContainer key='homepage'/>
     });
   },
 });
