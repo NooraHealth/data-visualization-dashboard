@@ -4,7 +4,7 @@
 import React from 'react';
 import crossfilter from 'crossfilter';
 import { SelectFacilityContainer } from '../containers/SelectFacilityContainer.jsx';
-import { BarChart } from '../components/charts/BarChart.jsx';
+import { BarChart } from '../components/charts/BarChart.js';
 import { AttendanceChart } from '../../api/immutables/AttendanceChart.coffee';
 import { List } from 'immutable'
 import * as d3 from 'd3';
@@ -69,25 +69,30 @@ const HomePage = React.createClass({
     if( !this.props.loading && !this.state.updated ){
       this._updateChartData();
       this.setState({ updated: true });
+      BarChart.update( this._getAttendanceChartProps() );
     }
   },
 
   render(){
-    const attendanceData = this.state.attendanceChart.data.toArray().map((d)=> { return d.value; });
     return (
       <div className="ui grid">
         <SelectFacilityContainer />
-        <BarChart
-          data={ attendanceData }
-          margin={ this.state.attendanceChart.margin.toJS() }
-          height={ this.state.attendanceChart.height }
-          width={ this.state.attendanceChart.width }
-          name="month"
-          value="numAttended"
-          chartId="attendance-chart"
-          />
+        <svg id="attendance-chart"/>
       </div>
     )
+  },
+
+  _getAttendanceChartProps() {
+    const attendanceData = this.state.attendanceChart.data.toArray().map((d)=> { return d.value; });
+    return {
+      data:    attendanceData,
+      margin:  this.state.attendanceChart.margin.toJS(),
+      height:  this.state.attendanceChart.height,
+      width:   this.state.attendanceChart.width,
+      name:    "month",
+      value:   "numAttended",
+      chartId: "attendance-chart"
+    }
   },
 
   _updateChartData(){
