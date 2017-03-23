@@ -2,7 +2,7 @@
 Immutable = require 'immutable'
 
 BaseAttendanceChart = Immutable.Record {
-  data: Immutable.Seq(),
+  data: Immutable.List(),
   margin: Immutable.Map(),
   height: 500,
   width: 940
@@ -11,7 +11,7 @@ BaseAttendanceChart = Immutable.Record {
 class AttendanceChart extends BaseAttendanceChart
   constructor: ( properties )->
     super Object.assign({}, properties, {
-      data: Immutable.Seq properties && properties.data
+      data: Immutable.List properties && properties.data
     }, {
       margin: Immutable.Map properties && properties.margin
     });

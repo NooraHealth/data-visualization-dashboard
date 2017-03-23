@@ -17,7 +17,7 @@ const BarChart = {
     const x            = this.xScale( barNames, innerWidth );
     const chart        = d3.select( "#" + props.chartId );
     this.resetChart( chart );
-    
+
     const container = this.renderChartContainer( chart, props.width, props.height, margin );
     this.renderBars( container, innerHeight, data, name, value, x, y );
     this.renderXAxis( container, x, innerHeight );
@@ -47,7 +47,7 @@ const BarChart = {
 
     bars.append("rect")
       .attr("y", function(d) { return y(d[value]); })
-      .attr("height", function(d) { console.log(y(d[value])); return height - y(d[value]); })
+      .attr("height", function(d) { return height - y(d[value]); })
       .attr("width", x.bandwidth() )
       .attr("class", "fill blue")
       .on("mouseover", function(d) {
@@ -94,8 +94,6 @@ const BarChart = {
   },
 
   yScale: function( height, maxValue ) {
-    console.log("max value");
-    console.log(maxValue);
     return d3.scaleLinear()
       .range([ height, 0])
       .domain([0, maxValue ]);

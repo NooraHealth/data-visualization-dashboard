@@ -50,7 +50,6 @@ const HomePage = React.createClass({
       margin: { top: 20, right: 30, bottom: 30, left: 40 }
     });
     return {
-      dataCrossfilter: crossfilter,
       attendanceChart: attendanceChart,
       updated: false
     };
@@ -62,15 +61,23 @@ const HomePage = React.createClass({
     }
   },
 
-  componentDidUpdate(prevProps, prevState) {
-    // if( !this.props.loading && ( this.state.firstLoad || prevProps.facilityName !== this.props.facilityName )){
-    //If the loading status has changed
-    if( !prevProps.loading && this.props.loading ){ this.setState({ updated: false }) };
-    if( !this.props.loading && !this.state.updated ){
+  shouldComponentUpdate(nextProps, nextState) {
+    if( nextProps.loading ){
+      this.setState({ updated: false })
+      return false;
+    } else if ( !this.props.loading && nextState.updated ) {
+      console.log("UPDATING CHART DATA");
       this._updateChartData();
       this.setState({ updated: true });
-      BarChart.update( this._getAttendanceChartProps() );
+      return true;
     }
+    return false;
+  },
+
+  componentDidUpdate(prevProps, prevState) {
+    console.log("UPDATING THE CHART");
+    console.log(this.state.attendanceChart.data.toArray());
+    BarChart.update( this._getAttendanceChartProps() );
   },
 
   render(){
@@ -99,8 +106,8 @@ const HomePage = React.createClass({
     const ndx = crossfilter( this.props.classes || [] );
     const attendanceData = this._getAttendanceChartData( ndx );
     const list = List( attendanceData );
-    const attendanceChart = this.state.attendanceChart.set( "data", list );
-    this.setState({ attendanceChart: attendanceChart, crossfilter: ndx });
+    const chart = this.state.attendanceChart.set( "data", list );
+    this.setState({ attendanceChart: chart, crossfilter: ndx });
   },
 
   _getAttendanceChartData( ndx ){
