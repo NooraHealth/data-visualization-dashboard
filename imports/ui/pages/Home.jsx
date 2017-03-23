@@ -61,22 +61,23 @@ const HomePage = React.createClass({
     }
   },
 
-  shouldComponentUpdate(nextProps, nextState) {
-    if( nextProps.loading ){
-      this.setState({ updated: false })
-      return false;
-    } else if ( !this.props.loading && nextState.updated ) {
-      console.log("UPDATING CHART DATA");
-      this._updateChartData();
-      this.setState({ updated: true });
-      return true;
-    }
-    return false;
-  },
+  // shouldComponentUpdate(nextProps, nextState) {
+  //   if( nextProps.loading ){
+  //     this.setState({ updated: false })
+  //     return false;
+  //   } else if ( !this.props.loading && nextState.updated ) {
+  //     this._updateChartData();
+  //     this.setState({ updated: true });
+  //     return true;
+  //   }
+  //   return false;
+  // },
 
   componentDidUpdate(prevProps, prevState) {
     console.log("UPDATING THE CHART");
-    console.log(this.state.attendanceChart.data.toArray());
+    // console.log(this.state.attendanceChart.data.toArray());
+    // console.log(this.props.classes);
+    // this._updateChartData();
     BarChart.update( this._getAttendanceChartProps() );
   },
 
@@ -90,7 +91,8 @@ const HomePage = React.createClass({
   },
 
   _getAttendanceChartProps() {
-    const attendanceData = this.state.attendanceChart.data.toArray().map((d)=> { return d.value; });
+    const ndx = crossfilter( this.props.classes || [] );
+    const attendanceData = this._getAttendanceChartData(ndx).map((d)=> { return d.value; });
     return {
       data:    attendanceData,
       margin:  this.state.attendanceChart.margin.toJS(),
