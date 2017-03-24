@@ -13,6 +13,7 @@ export default HomePageContainer = createContainer(( params ) => {
   _getClasses = function( facilityName ){
      return Classes.find({ facility_name: facilityName }).fetch();
   }
+
   return {
     loading: ! handle.ready(),
     facilityName: facilityName,

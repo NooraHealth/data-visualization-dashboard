@@ -5,7 +5,8 @@ BaseAttendanceChart = Immutable.Record {
   data: Immutable.List(),
   margin: Immutable.Map(),
   height: 500,
-  width: 940
+  width: 940,
+  numMonthsToShow: 4
 }
 
 class AttendanceChart extends BaseAttendanceChart
