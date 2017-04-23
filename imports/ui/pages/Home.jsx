@@ -5,7 +5,7 @@ import React from 'react';
 import { ClassesCrossfilter } from '../../api/crossfilters/ClassesCrossfilter.js';
 import { SelectFacilityContainer } from '../containers/SelectFacilityContainer.jsx';
 import { BarChart } from '../components/charts/BarChart.js';
-import { AttendanceChart } from '../../api/immutables/AttendanceChart.coffee';
+import { AttendanceByMonth } from '../../api/immutables/AttendanceByMonth.coffee';
 import { List } from 'immutable'
 import * as d3 from 'd3';
 
@@ -26,7 +26,7 @@ const HomePage = React.createClass({
   },
 
   getInitialState() {
-    const attendanceChart = new AttendanceChart({
+    const attendanceByMonth = new AttendanceByMonth({
       data: null,
       width: 500,
       height: 250,
@@ -34,21 +34,21 @@ const HomePage = React.createClass({
       margin: { top: 20, right: 30, bottom: 30, left: 40 }
     });
     return {
-      attendanceChart: attendanceChart
+      attendanceByMonth: attendanceByMonth
     };
   },
 
   componentDidMount() {
     this.classesCrossfilter = new ClassesCrossfilter( this.props.classes );
     if( this.props.classes ){
-      BarChart.update( this._getAttendanceChartProps( this.classesCrossfilter ));
+      BarChart.update( this._getAttendanceByMonthProps( this.classesCrossfilter ));
     }
   },
 
   componentDidUpdate(prevProps, prevState) {
     if( this.props.classes ){
       this.classesCrossfilter.clear().setClasses( this.props.classes );
-      BarChart.update( this._getAttendanceChartProps( this.classesCrossfilter ));
+      BarChart.update( this._getAttendanceByMonthProps( this.classesCrossfilter ));
     }
   },
 
@@ -61,15 +61,15 @@ const HomePage = React.createClass({
     )
   },
 
-  _getAttendanceChartProps( classesCrossfilter ) {
-    const numMonths = this.state.attendanceChart.numMonthsToShow;
-    const attendanceData = classesCrossfilter.getAttendanceChartData( numMonths )
+  _getAttendanceByMonthProps( classesCrossfilter ) {
+    const numMonths = this.state.attendanceByMonth.numMonthsToShow;
+    const attendanceData = classesCrossfilter.getAttendanceByMonthData( numMonths )
       .map((d)=> { return d.value; });
     return {
       data:    attendanceData,
-      margin:  this.state.attendanceChart.margin.toJS(),
-      height:  this.state.attendanceChart.height,
-      width:   this.state.attendanceChart.width,
+      margin:  this.state.attendanceByMonth.margin.toJS(),
+      height:  this.state.attendanceByMonth.height,
+      width:   this.state.attendanceByMonth.width,
       name:    "month",
       value:   "numAttended",
       chartId: "attendance-chart"

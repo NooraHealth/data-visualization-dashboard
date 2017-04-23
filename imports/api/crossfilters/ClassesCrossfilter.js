@@ -32,7 +32,7 @@ class ClassesCrossfilter {
     return this;
   }
 
-  getAttendanceChartData( numMonthsToShow ){
+  getAttendanceByMonthData( numMonthsToShow ){
     if( numMonthsToShow <= 0 ) { return null };
 
     const startMonthIndex = timeMonth(new Date()).getMonth() - numMonthsToShow + 1;
@@ -52,7 +52,6 @@ class ClassesCrossfilter {
       }).order( (p)=> {
         return -reorderedCalendar.indexOf(p.month);
       }).top( numMonthsToShow );
-
     return reduced;
   }
 }

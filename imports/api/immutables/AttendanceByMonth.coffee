@@ -1,7 +1,7 @@
 
 Immutable = require 'immutable'
 
-BaseAttendanceChart = Immutable.Record {
+BaseAttendanceByMonth = Immutable.Record {
   data: Immutable.List(),
   margin: Immutable.Map(),
   height: 500,
@@ -9,7 +9,7 @@ BaseAttendanceChart = Immutable.Record {
   numMonthsToShow: 4
 }
 
-class AttendanceChart extends BaseAttendanceChart
+class AttendanceByMonth extends BaseAttendanceByMonth
   constructor: ( properties )->
     super Object.assign({}, properties, {
       data: Immutable.List properties && properties.data
@@ -17,4 +17,4 @@ class AttendanceChart extends BaseAttendanceChart
       margin: Immutable.Map properties && properties.margin
     });
 
-module.exports.AttendanceChart = AttendanceChart
+module.exports.AttendanceByMonth = AttendanceByMonth;
